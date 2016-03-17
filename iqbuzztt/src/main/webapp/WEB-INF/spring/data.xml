@@ -1,0 +1,88 @@
+<?xml  version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="/WEB-INF/jdbc.properties" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${jdbc.driverClassName}" 
+		p:url="${jdbc.databaseurl}"
+		p:username="${jdbc.username}" 
+		p:password="${jdbc.password}" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	
+	<bean id="movieService" class="xyz.maksimenko.iqbuzztt.service.Impl.MovieServiceImpl">
+    </bean>
+	 
+	<bean id="ticketService" class="xyz.maksimenko.iqbuzztt.service.Impl.TicketServiceImpl">
+    </bean>
+    
+    <bean id="visitorService" class="xyz.maksimenko.iqbuzztt.service.Impl.VisitorServiceImpl">
+    </bean>
+    
+    <bean id="placeService" class="xyz.maksimenko.iqbuzztt.service.Impl.PlaceServiceImpl">
+    </bean>
+    
+    <task:annotation-driven />
+    <bean id="ticketsRescuer" class="xyz.maksimenko.iqbuzztt.TicketsRescuer">
+    </bean>
+    
+    <bean name="/MovieService.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter">
+        <property name="service" ref="movieService"/>
+        <property name="serviceInterface" value="xyz.maksimenko.iqbuzztt.service.MovieService"/>
+    </bean>
+    
+    <bean name="/TicketService.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter">
+        <property name="service" ref="ticketService"/>
+        <property name="serviceInterface" value="xyz.maksimenko.iqbuzztt.service.TicketService"/>
+    </bean>
+    
+    <bean name="/VisitorService.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter">
+        <property name="service" ref="visitorService"/>
+        <property name="serviceInterface" value="xyz.maksimenko.iqbuzztt.service.VisitorService"/>
+    </bean>
+    
+    <bean name="/PlaceService.json" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter">
+        <property name="service" ref="placeService"/>
+        <property name="serviceInterface" value="xyz.maksimenko.iqbuzztt.service.PlaceService"/>
+    </bean>
+
+</beans>

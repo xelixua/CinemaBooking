@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+
+.seat {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border:  2px solid black;
+  background-color: #7777AA;
+}
+
+.middle.seat {
+  background-color: #77AA77;
+}
+
+.lux.seat {
+  background-color: #AA7777;
+}
+
+.already_booked.seat {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  background-color: #777777;
+}
+
+.seat_mouseover {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+.seat_selected {
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+  background-color: #AAAA77;
+}
