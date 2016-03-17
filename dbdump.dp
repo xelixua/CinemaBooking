@@ -1,0 +1,306 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.1
+-- Dumped by pg_dump version 9.5.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: movies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE movies (
+    movieid integer DEFAULT 1 NOT NULL,
+    name character varying(100),
+    start bigint NOT NULL
+);
+
+
+ALTER TABLE movies OWNER TO postgres;
+
+--
+-- Name: places; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE places (
+    placeid integer DEFAULT 1 NOT NULL,
+    price smallint NOT NULL,
+    "row" smallint NOT NULL,
+    seat smallint NOT NULL,
+    comfclass smallint NOT NULL
+);
+
+
+ALTER TABLE places OWNER TO postgres;
+
+--
+-- Name: tickets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tickets (
+    ticketid integer DEFAULT 1 NOT NULL,
+    movieid integer NOT NULL,
+    bookedto integer,
+    bookedtill bigint,
+    placeid integer NOT NULL,
+    paid boolean
+);
+
+
+ALTER TABLE tickets OWNER TO postgres;
+
+--
+-- Name: visitors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE visitors (
+    userid integer DEFAULT 1 NOT NULL,
+    fullname character varying(200) NOT NULL
+);
+
+
+ALTER TABLE visitors OWNER TO postgres;
+
+--
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY movies (movieid, name, start) FROM stdin;
+1	Interstellar	1458140400
+2	The Martian	1458142200
+3	Bridge of spies	1458145800
+\.
+
+
+--
+-- Data for Name: places; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY places (placeid, price, "row", seat, comfclass) FROM stdin;
+1	20	1	1	0
+2	20	1	2	0
+3	20	1	3	0
+4	20	1	4	0
+5	20	1	5	0
+6	20	2	5	0
+7	20	2	4	0
+8	20	2	3	0
+9	20	2	2	0
+10	20	2	1	0
+11	20	3	1	0
+14	20	4	1	0
+15	50	3	2	1
+16	50	3	3	1
+17	50	3	4	1
+18	50	4	2	1
+19	50	4	3	1
+20	50	4	4	1
+21	90	5	1	2
+22	90	5	2	2
+23	90	5	3	2
+24	90	5	4	2
+25	90	5	5	2
+26	20	1	6	0
+27	20	2	6	0
+28	20	3	6	0
+29	20	4	6	0
+30	90	5	6	2
+31	50	3	5	1
+32	50	4	5	1
+\.
+
+
+--
+-- Data for Name: tickets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tickets (ticketid, movieid, bookedto, bookedtill, placeid, paid) FROM stdin;
+1	1	\N	\N	1	f
+2	1	\N	\N	2	f
+21	1	\N	\N	21	f
+22	1	\N	\N	22	f
+3	1	\N	\N	3	f
+4	1	\N	\N	4	f
+5	1	\N	\N	5	f
+6	1	\N	\N	6	f
+7	1	\N	\N	7	f
+8	1	\N	\N	8	f
+9	1	\N	\N	9	f
+10	1	\N	\N	10	f
+15	1	\N	\N	15	f
+16	1	\N	\N	16	f
+17	1	\N	\N	17	f
+23	1	\N	\N	23	f
+24	1	\N	\N	24	f
+25	1	\N	\N	25	f
+26	1	\N	\N	26	f
+27	1	\N	\N	27	f
+28	1	\N	\N	28	f
+29	1	\N	\N	29	f
+30	1	\N	\N	30	f
+31	1	\N	\N	31	f
+32	1	\N	\N	32	f
+41	2	\N	\N	1	f
+42	2	\N	\N	2	f
+43	2	\N	\N	3	f
+44	2	\N	\N	4	f
+45	2	\N	\N	5	f
+46	2	\N	\N	6	f
+47	2	\N	\N	7	f
+48	2	\N	\N	8	f
+49	2	\N	\N	9	f
+50	2	\N	\N	10	f
+51	2	\N	\N	11	f
+54	2	\N	\N	14	f
+55	2	\N	\N	15	f
+56	2	\N	\N	16	f
+57	2	\N	\N	17	f
+58	2	\N	\N	18	f
+59	2	\N	\N	19	f
+60	2	\N	\N	20	f
+61	2	\N	\N	21	f
+62	2	\N	\N	22	f
+63	2	\N	\N	23	f
+64	2	\N	\N	24	f
+65	2	\N	\N	25	f
+66	2	\N	\N	26	f
+67	2	\N	\N	27	f
+68	2	\N	\N	28	f
+69	2	\N	\N	29	f
+70	2	\N	\N	30	f
+71	2	\N	\N	31	f
+72	2	\N	\N	32	f
+81	3	\N	\N	1	f
+82	3	\N	\N	2	f
+83	3	\N	\N	3	f
+84	3	\N	\N	4	f
+85	3	\N	\N	5	f
+86	3	\N	\N	6	f
+87	3	\N	\N	7	f
+88	3	\N	\N	8	f
+89	3	\N	\N	9	f
+90	3	\N	\N	10	f
+91	3	\N	\N	11	f
+94	3	\N	\N	14	f
+95	3	\N	\N	15	f
+96	3	\N	\N	16	f
+97	3	\N	\N	17	f
+98	3	\N	\N	18	f
+99	3	\N	\N	19	f
+100	3	\N	\N	20	f
+101	3	\N	\N	21	f
+102	3	\N	\N	22	f
+103	3	\N	\N	23	f
+104	3	\N	\N	24	f
+105	3	\N	\N	25	f
+106	3	\N	\N	26	f
+107	3	\N	\N	27	f
+108	3	\N	\N	28	f
+109	3	\N	\N	29	f
+110	3	\N	\N	30	f
+111	3	\N	\N	31	f
+112	3	\N	\N	32	f
+11	1	\N	\N	11	f
+14	1	\N	\N	14	f
+18	1	\N	\N	18	f
+19	1	\N	\N	19	f
+20	1	\N	\N	20	f
+\.
+
+
+--
+-- Data for Name: visitors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY visitors (userid, fullname) FROM stdin;
+1	test
+2	ggfdgdff
+3	vdfdgdf
+4	bombombom
+5	rrgrgerg
+6	Максименко С.В.
+7	kuku
+8	trerttete
+9	hgrthrthr
+10	hfghfghf
+11	hfghf
+12	рапрапр
+13	fgfdgdfgdf
+14	dsfsdfs
+\.
+
+
+--
+-- Name: movies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY movies
+    ADD CONSTRAINT movies_pkey PRIMARY KEY (movieid);
+
+
+--
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (placeid);
+
+
+--
+-- Name: tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tickets
+    ADD CONSTRAINT tickets_pkey PRIMARY KEY (ticketid);
+
+
+--
+-- Name: visitors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY visitors
+    ADD CONSTRAINT visitors_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
